@@ -15,7 +15,7 @@ const Com = () => {
     series: {
       name: '模拟数据',
       itemStyle: {
-        color: 'rgb(255, 70, 131)',
+        color: 'rgb(50,105,255)',
       },
       areaStyle: {
         color: 'rgb(255, 158, 68)',

@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
 
-export const useLinearGradient = (option, canvas) => {
-  const [ctx, setCtx] = useState(null);
-  const [width, setWidth] = useState(null);
+export const useGetCanvas = (option) => {
+  const [canvas, setCanvas] = useState(null);
   useEffect(() => {
-    if(!canvas) return;
-    setCtx(canvas.getContext('2d'));
-    setWidth(canvas.width);
-  }, [canvas]);
-  return [ctx, width];
+    const canvas = document.getElementById(option.canvas.id);
+    setCanvas(canvas);
+  }, [option]);
+  return [canvas];
 };

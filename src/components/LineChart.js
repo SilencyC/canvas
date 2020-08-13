@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useGetCanvas } from '../useHooks';
 
 const LineChart = (props) => {
   const { option } = props;
   const [allPoint, setAllPoint] = useState([]);
-  // const [ctx] = useLinearGradient(option, canvas);
+  const [canvas] = useGetCanvas(option);
+  const [ctx, setCtx] = useState(null);
+  const [lastVal, setLastVal] = useState(null);
+
   const padding = 50;
   const halving = 7;
   function getCtrlPoint(ps, i, a, b) {
@@ -91,30 +95,7 @@ const LineChart = (props) => {
       ctx.stroke();
     }
   };
-
-  const getMousePosition = (e) => {
-    return {
-      x: e.clientX,
-      y: e.clientY,
-    };
-  };
-
-  const handleMousemove = (e) => {
-    const mousePosition = getMousePosition(e);
-    console.log(mousePosition);
-    console.log(allPoint);
-    console.log(props);
-  };
-
-  function addEventHandle(canvas) {
-    canvas.addEventListener('mousemove', handleMousemove, false);
-  }
-
-  useEffect(() => {
-    const canvas = document.getElementById(option.canvas.id);
-    const ctx = canvas.getContext('2d');
-    const width = canvas.width;
-    const height = canvas.height;
+  function drawLine(ctx, width, height, allPointPositions) {
     const tooltip = option.tooltip;
     const title = option.text;
     const series = option.series;
@@ -137,8 +118,6 @@ const LineChart = (props) => {
     ctx.lineWidth = 1;
     ctx.stroke();
     setAxis({ x: ox, y: oy }, data, width, height, ctx);
-    const allPointPositions = getAllPointPosition(data, width, height);
-    setAllPoint(allPointPositions);
     ctx.save();
     allPointPositions.forEach((p, index) => {
       if (index === 0) {
@@ -158,13 +137,100 @@ const LineChart = (props) => {
     ctx.lineTo(ox, oy);
     ctx.closePath();
     var gradient = ctx.createLinearGradient(0, 0, 0, oy);
-    gradient.addColorStop(0, 'rgba(255, 70, 131, 0.5)');
-    gradient.addColorStop(1, 'rgba(255, 70, 131, 0)');
+    gradient.addColorStop(0, 'rgba(50,105,255, 0.5)');
+    gradient.addColorStop(1, 'rgba(50,105,255, 0)');
     ctx.fillStyle = gradient;
     ctx.fill();
+    ctx.restore();
+  }
 
+  useEffect(() => {
+    if (!canvas) return;
+    const width = canvas.width;
+    const height = canvas.height;
+    const series = option.series;
+    const { data, itemStyle, areaStyle } = series;
+    const allPointPositions = getAllPointPosition(data, width, height);
+    setAllPoint(allPointPositions);
+    const ctx = canvas.getContext('2d');
+    setCtx(ctx);
+    drawLine(ctx, width, height, allPointPositions);
+  }, [canvas]);
+
+  useEffect(() => {
+    if (!allPoint.length) return;
+    const width = canvas.width;
+    const height = canvas.height;
+    const getMousePosition = (e) => {
+      return {
+        x: e.clientX,
+        y: e.clientY,
+      };
+    };
+
+    const handleMousemove = (e) => {
+      const mousePosition = getMousePosition(e);
+      const val = allPoint.find(
+        (item) => item.x - 3 < mousePosition.x && mousePosition.x < item.x + 3
+      );
+      if (val && JSON.stringify(val) !== JSON.stringify(lastVal)) {
+        ctx.clearRect(0, 0, 800, 600);
+        drawLine(ctx, width, height, allPoint);
+        ctx.save();
+        ctx.fillStyle = '#FAA82F';
+        ctx.strokeStyle = '#FAA82F';
+        ctx.beginPath();
+        ctx.moveTo(val.x, val.y);
+        ctx.arc(val.x, val.y, 6, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.stroke();
+        ctx.restore();
+
+        ctx.save();
+        ctx.fillStyle = '#FFF';
+        ctx.strokeStyle = '#FFF';
+        ctx.beginPath();
+        ctx.moveTo(val.x, val.y);
+        ctx.arc(val.x, val.y, 3, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.stroke();
+        ctx.restore();
+
+        ctx.save();
+        ctx.strokeStyle = '#FAA82F';
+        ctx.beginPath();
+        // ctx.moveTo(val.x, 50);
+        ctx.lineTo(val.x, val.y + 2.5);
+        ctx.lineTo(val.x, 350);
+        ctx.stroke();
+        ctx.restore();
+
+        // ctx.save();
+        // ctx.strokeStyle = 'black';
+        // ctx.beginPath();
+        // ctx.moveTo(50, val.y);
+        // ctx.lineTo(val.x, val.y);
+        // ctx.lineTo(550, val.y);
+        // ctx.stroke();
+        // ctx.restore();
+        setLastVal(val);
+      }
+    };
+
+    function handleMouseleave(e) {
+      ctx.clearRect(0, 0, 800, 600);
+      drawLine(ctx, width, height, allPoint);
+    }
+
+    function addEventHandle(canvas) {
+      canvas.addEventListener('mousemove', handleMousemove, false);
+      canvas.addEventListener('mouseleave', handleMouseleave, false);
+    }
     addEventHandle(canvas);
-  }, [option]);
+    return () => {
+      canvas.removeEventListener('mousemove', handleMousemove);
+    };
+  }, [allPoint]);
 
   return (
     <div>
