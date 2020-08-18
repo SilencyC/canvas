@@ -51,6 +51,7 @@ const LineChart = (props) => {
       return {
         x: pointX,
         y: pointY,
+        value: point
       };
     });
     return allPointPositions;
@@ -96,8 +97,6 @@ const LineChart = (props) => {
     }
   };
   function drawLine(ctx, width, height, allPointPositions) {
-    const tooltip = option.tooltip;
-    const title = option.text;
     const series = option.series;
     const { data, itemStyle, areaStyle } = series;
     const ox = padding;
@@ -155,8 +154,8 @@ const LineChart = (props) => {
     const ctx = canvas.getContext('2d');
     setCtx(ctx);
     drawLine(ctx, width, height, allPointPositions);
-  }, [canvas]);
-
+    console.log(1);
+  }, [canvas, option.series]);
   useEffect(() => {
     if (!allPoint.length) return;
     const width = canvas.width;
@@ -199,20 +198,11 @@ const LineChart = (props) => {
         ctx.save();
         ctx.strokeStyle = '#FAA82F';
         ctx.beginPath();
-        // ctx.moveTo(val.x, 50);
         ctx.lineTo(val.x, val.y + 2.5);
         ctx.lineTo(val.x, 350);
+        ctx.setLineDash([10, 10]);
         ctx.stroke();
         ctx.restore();
-
-        // ctx.save();
-        // ctx.strokeStyle = 'black';
-        // ctx.beginPath();
-        // ctx.moveTo(50, val.y);
-        // ctx.lineTo(val.x, val.y);
-        // ctx.lineTo(550, val.y);
-        // ctx.stroke();
-        // ctx.restore();
         setLastVal(val);
       }
     };
@@ -220,17 +210,20 @@ const LineChart = (props) => {
     function handleMouseleave(e) {
       ctx.clearRect(0, 0, 800, 600);
       drawLine(ctx, width, height, allPoint);
+      setLastVal(null);
     }
 
     function addEventHandle(canvas) {
       canvas.addEventListener('mousemove', handleMousemove, false);
       canvas.addEventListener('mouseleave', handleMouseleave, false);
     }
+    console.log(2);
     addEventHandle(canvas);
     return () => {
       canvas.removeEventListener('mousemove', handleMousemove);
     };
-  }, [allPoint]);
+  }, [allPoint, lastVal]);
+  console.log(123);
 
   return (
     <div>
