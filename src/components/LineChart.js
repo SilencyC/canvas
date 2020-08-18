@@ -154,7 +154,6 @@ const LineChart = (props) => {
     const ctx = canvas.getContext('2d');
     setCtx(ctx);
     drawLine(ctx, width, height, allPointPositions);
-    console.log(1);
   }, [canvas, option.series]);
   useEffect(() => {
     if (!allPoint.length) return;
@@ -217,13 +216,11 @@ const LineChart = (props) => {
       canvas.addEventListener('mousemove', handleMousemove, false);
       canvas.addEventListener('mouseleave', handleMouseleave, false);
     }
-    console.log(2);
     addEventHandle(canvas);
     return () => {
       canvas.removeEventListener('mousemove', handleMousemove);
     };
   }, [allPoint, lastVal]);
-  console.log(123);
 
   return (
     <div>

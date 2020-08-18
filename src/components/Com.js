@@ -11,7 +11,7 @@ const Com = () => {
   }
   const option = {
     canvas: {
-      id: 'canvas',
+      id: 'canvas-line',
     },
     series: {
       name: '模拟数据',
@@ -54,7 +54,7 @@ const Com = () => {
   ];
   return (
     <div>
-      {/* <LineChart option={option}></LineChart> */}
+      <LineChart option={option}></LineChart>
       <Pie data={pieData} width={'600'} height={'400'}></Pie>
     </div>
   );
