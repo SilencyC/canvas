@@ -7,7 +7,6 @@ const Pie = (props) => {
   const [cnavasWidth, setCnavasWidth] = useState(null);
   const [cnavasHeight, setCnavasHeight] = useState(null);
   const [padding, setPadding] = useState(null);
-  const [radius, setRadius] = useState(null);
 
   useEffect(() => {
     const cvs = document.getElementById('canvas');
@@ -20,11 +19,11 @@ const Pie = (props) => {
     setCnavasWidth(width);
     setCnavasHeight(height);
     setPadding(20);
-    setRadius((cvs.height - 2 * padding) / 2 - 20);
   }, [data, width, height, padding]);
 
   useEffect(() => {
     if (!canvas) return;
+    const radius = (canvas.height - 2 * padding) / 2 - 20;
     const oPoint = {
       x: cnavasWidth / 2,
       y: cnavasHeight / 2,
@@ -72,7 +71,6 @@ const Pie = (props) => {
       );
       ctx.closePath();
       ctx.fillStyle = '#FFF';
-      // ctx.lineWidth = 10;
       ctx.strokeStyle = '#FFF';
       ctx.stroke();
       ctx.fill();
@@ -95,7 +93,7 @@ const Pie = (props) => {
       ctx.fill();
       ctx.restore();
     });
-  }, [canvas]);
+  }, [canvas, ctx, data, padding, cnavasHeight, cnavasWidth]);
 
   return (
     <div>
