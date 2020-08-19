@@ -153,6 +153,7 @@ const LineChart = (props) => {
     setAllPoint(allPointPositions);
     const ctx = canvas.getContext('2d');
     setCtx(ctx);
+    ctx.clearRect(0, 0, 800, 600);
     drawLine(ctx, width, height, allPointPositions);
   }, [canvas, option.series]);
   useEffect(() => {

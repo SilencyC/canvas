@@ -19,7 +19,7 @@ const Pie = (props) => {
     setCnavasWidth(width);
     setCnavasHeight(height);
     setPadding(20);
-  }, [data, width, height, padding]);
+  }, []);
 
   useEffect(() => {
     if (!canvas) return;
@@ -32,6 +32,7 @@ const Pie = (props) => {
     let endAngle = 1.5 * Math.PI;
     const rangWidth = 20;
     const rang = 10;
+    ctx.clearRect(0, 0, 600, 400);
 
     data.forEach((item, index) => {
       let { percent } = item;
