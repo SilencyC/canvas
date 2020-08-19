@@ -37,7 +37,6 @@ const DoughnutChart = (props) => {
 
   useEffect(() => {
     if (!canvas || !dataOfHandle.length) return;
-    console.log('dataOfHandle::', dataOfHandle);
     const centerPosition = {
       x: canvasWidth / 2,
       y: canvasHeight / 2,
@@ -120,7 +119,6 @@ const DoughnutChart = (props) => {
           );
           let x = null;
           if (isNaN(newAngle)) {
-            console.log(newAngle, index);
             x = halfOutPosition.x;
           } else {
             x = centerPosition.x + sing * newRadius * Math.sin(newAngle);
