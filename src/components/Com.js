@@ -43,17 +43,17 @@ const Com = () => {
     },
     {
       title: 'Credit Suisse-HK',
-      percent: 0.0059,
+      percent: 0.0349,
       color: '#7480F4',
     },
     {
       title: 'Julius Baer-CH',
-      percent: 0.0049,
+      percent: 0.0449,
       color: '#F8784C',
     },
     {
       title: 'VP Bank-CH',
-      percent: 0.0026,
+      percent: 0.0326,
       color: '#F8C677',
     },
   ]);

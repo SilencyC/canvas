@@ -25,7 +25,7 @@ const DoughnutChart = (props) => {
       return pre + Math.abs(current.percent);
     }, 0);
     let newData = data.map((item) => {
-      const percent = (item.percent / total).toFixed(4) * 1;
+      const percent = (Math.abs(item.percent) / total).toFixed(4) * 1;
       return {
         ...item,
         percent,
@@ -60,14 +60,14 @@ const DoughnutChart = (props) => {
         // 获取鼠标输在区域的下标
         function getIndex(data, angle) {
           let i = null;
-          let startAngle = -0.5 * Math.PI;
-          let endAngle = startAngle;
+          let startAngle_getIndex = -0.5 * Math.PI;
+          let endAngle_getIndex = startAngle_getIndex;
           data.forEach((item, index) => {
-            endAngle = endAngle + item.percent * 2 * Math.PI;
-            if (angle > startAngle && angle < endAngle) {
+            endAngle_getIndex = endAngle_getIndex + item.percent * 2 * Math.PI;
+            if (angle > startAngle_getIndex && angle < endAngle_getIndex) {
               i = index;
             }
-            startAngle = endAngle;
+            startAngle_getIndex = endAngle_getIndex;
           });
           return i;
         }
@@ -79,7 +79,7 @@ const DoughnutChart = (props) => {
               newRang = rang;
               return;
             }
-            index = indexVal;   
+            index = indexVal;
             drawPie(index);
           } else {
             newRadius = radius - 10;
@@ -126,18 +126,12 @@ const DoughnutChart = (props) => {
     canvas.addEventListener('mousemove', handleMousemove, false);
 
     function handleMousemove(e) {
+      startAngle = -0.5 * Math.PI;
+      endAngle = startAngle;
       const mousePosition = {
         x: e.offsetX,
         y: e.offsetY,
       };
-
-      // if (index === null) {
-      //   newRadius = radius;
-      //   newRang = rang;
-      // } else {
-      //   newRadius = radius - 10;
-      //   newRang = rang + 20;
-      // }
       judgment(
         mousePosition,
         centerPosition,
@@ -146,62 +140,83 @@ const DoughnutChart = (props) => {
         dataOfHandle
       );
     }
+
+    function draw(newRadius, newRang, startAngle, endAngle, item) {
+      ctx.save();
+      const startPosition = {
+        x: centerPosition.x + newRadius * Math.cos(startAngle),
+        y: centerPosition.y + newRadius * Math.sin(startAngle),
+      };
+      const startOutPosition = {
+        x: centerPosition.x + (newRadius + newRang) * Math.cos(startAngle),
+        y: centerPosition.y + (newRadius + newRang) * Math.sin(startAngle),
+      };
+      const endPosition = {
+        x: centerPosition.x + newRadius * Math.cos(endAngle),
+        y: centerPosition.y + newRadius * Math.sin(endAngle),
+      };
+      ctx.beginPath();
+      ctx.moveTo(startPosition.x, startPosition.y);
+      ctx.lineTo(startOutPosition.x, startOutPosition.y);
+      ctx.arc(
+        centerPosition.x,
+        centerPosition.y,
+        newRadius + newRang,
+        startAngle,
+        endAngle
+      );
+      ctx.lineTo(endPosition.x, endPosition.y);
+      ctx.arc(
+        centerPosition.x,
+        centerPosition.y,
+        newRadius,
+        endAngle,
+        startAngle,
+        true
+      );
+      ctx.fillStyle = item.color;
+      ctx.strokeStyle = item.color;
+      ctx.fill();
+      ctx.closePath();
+      ctx.stroke();
+      ctx.restore();
+    }
+
     function drawPie(i) {
       ctx.clearRect(0, 0, canvasWidth, canvasHeight);
       let newRang = rang;
       let newRadius = radius;
       dataOfHandle.forEach((item, index) => {
         endAngle = endAngle + item.percent * 2 * Math.PI;
-        if (i === index) {
-          newRadius = newRadius - 10;
-          newRang = newRang + 20;
-        } else {
-          newRang = rang;
-          newRadius = radius;
+        if (i !== index) {
+          draw(newRadius, newRang, startAngle, endAngle, item);
         }
-        const startPosition = {
-          x: centerPosition.x + newRadius * Math.cos(startAngle),
-          y: centerPosition.y + newRadius * Math.sin(startAngle),
-        };
-        const startOutPosition = {
-          x: centerPosition.x + (newRadius + newRang) * Math.cos(startAngle),
-          y: centerPosition.y + (newRadius + newRang) * Math.sin(startAngle),
-        };
-        const endPosition = {
-          x: centerPosition.x + newRadius * Math.cos(endAngle),
-          y: centerPosition.y + newRadius * Math.sin(endAngle),
-        };
-
-        ctx.save();
-        ctx.beginPath();
-        ctx.moveTo(startPosition.x, startPosition.y);
-        ctx.lineTo(startOutPosition.x, startOutPosition.y);
-        ctx.arc(
-          centerPosition.x,
-          centerPosition.y,
-          newRadius + newRang,
-          startAngle,
-          endAngle
-        );
-        ctx.lineTo(endPosition.x, endPosition.y);
-        ctx.arc(
-          centerPosition.x,
-          centerPosition.y,
-          newRadius,
-          endAngle,
-          startAngle,
-          true
-        );
-
-        ctx.fillStyle = item.color;
-        ctx.strokeStyle = item.color;
-        ctx.fill();
-        ctx.closePath();
-        ctx.stroke();
-
-        ctx.restore();
         startAngle = endAngle;
       });
+      if (i === undefined) return;
+      let bigRadius = radius;
+      let bigRang = rang;
+      let allBefore = 0;
+      let allBefore_1 = 0;
+      dataOfHandle.forEach((item, index) => {
+        if (index <= i) {
+          allBefore += item.percent;
+        }
+        if (index < i) {
+          allBefore_1 += item.percent;
+        }
+      });
+      bigRadius = newRadius - 10;
+      bigRang = newRang + 20;
+      ctx.shadowOffsetX = 2;
+      ctx.shadowOffsetY = -2;
+      ctx.save();
+      ctx.shadowBlur = 10;
+      ctx.shadowColor = dataOfHandle[i].color;
+      const newStartAngle = -0.5 * Math.PI + allBefore_1 * 2 * Math.PI;
+      const newEndAngle = -0.5 * Math.PI + allBefore * 2 * Math.PI;
+      draw(bigRadius, bigRang, newStartAngle, newEndAngle, dataOfHandle[i]);
+      ctx.restore();
     }
     drawPie();
     return () => {
