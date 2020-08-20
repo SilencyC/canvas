@@ -2,14 +2,15 @@ import React, { useState, useEffect } from 'react';
 import LineChart from './LineChart';
 import Pie from './Pie';
 import DoughnutChart from './DoughnutChart';
-import DoughnutChartHover from './DoughnutChartHover'
+import DoughnutChartHover from './DoughnutChartHover';
+import TopHistogram from './TopHistogram';
 
 const Com = () => {
   const [doughnutData] = useState([
     {
       title: 'UBS-CH',
       percent: 0.4599,
-      color: '#F85F5F',
+      color: '#49CB98',
     },
     {
       title: 'JP Morgan-SG',
@@ -34,7 +35,7 @@ const Com = () => {
     {
       title: 'UBP Bank-SG',
       percent: 0.0434,
-      color: '#49CB98',
+      color: '#F85F5F',
     },
     {
       title: 'UBP Bank-HK',
@@ -55,6 +56,184 @@ const Com = () => {
       title: 'VP Bank-CH',
       percent: 0.0326,
       color: '#F8C677',
+    },
+  ]);
+
+  const [topHistogrram] = useState([
+    {
+      name: 'Account1',
+      accounts: [
+        {
+          name: 'equities',
+          account: '24232234',
+          color: '#F8C677',
+        },
+        {
+          name: 'bonds',
+          account: '2423223',
+          color: '#F8C677',
+        },
+        {
+          name: 'funds',
+          account: '64232234',
+          color: '#F8C677',
+        },
+        {
+          name: 'liquidity',
+          account: '6232234',
+          color: '#F8C677',
+        },
+        {
+          name: 'others',
+          account: '9232234',
+          color: '#F8C677',
+        },
+        {
+          name: 'liabilities',
+          account: '-9232234',
+          color: '#CC715E',
+        },
+      ],
+    },
+    {
+      name: 'Account2',
+      accounts: [
+        {
+          name: 'equities',
+          account: '234234',
+          color: '#F8C677',
+        },
+        {
+          name: 'bonds',
+          account: '6756756',
+          color: '#F8C677',
+        },
+        {
+          name: 'funds',
+          account: '87978965',
+          color: '#F8C677',
+        },
+        {
+          name: 'liquidity',
+          account: '345465',
+          color: '#F8C677',
+        },
+        {
+          name: 'others',
+          account: '5645456',
+          color: '#F8C677',
+        },
+        {
+          name: 'liabilities',
+          account: '-34534534',
+          color: '#CC715E',
+        },
+      ],
+    },
+    {
+      name: 'Account3',
+      accounts: [
+        {
+          name: 'equities',
+          account: '24232234',
+          color: '#F8C677',
+        },
+        {
+          name: 'bonds',
+          account: '2423223',
+          color: '#F8C677',
+        },
+        {
+          name: 'funds',
+          account: '64232234',
+          color: '#F8C677',
+        },
+        {
+          name: 'liquidity',
+          account: '6232234',
+          color: '#F8C677',
+        },
+        {
+          name: 'others',
+          account: '9232234',
+          color: '#F8C677',
+        },
+        {
+          name: 'liabilities',
+          account: '-9232234',
+          color: '#CC715E',
+        },
+      ],
+    },
+    {
+      name: 'Account4',
+      accounts: [
+        {
+          name: 'equities',
+          account: '24232234',
+          color: '#F8C677',
+        },
+        {
+          name: 'bonds',
+          account: '2423223',
+          color: '#F8C677',
+        },
+        {
+          name: 'funds',
+          account: '64232234',
+          color: '#F8C677',
+        },
+        {
+          name: 'liquidity',
+          account: '6232234',
+          color: '#F8C677',
+        },
+        {
+          name: 'others',
+          account: '9232234',
+          color: '#F8C677',
+        },
+        {
+          name: 'liabilities',
+          account: '-9232234',
+          color: '#CC715E',
+        },
+      ],
+    },
+    {
+      name: 'Account5',
+      accounts: [
+        {
+          name: 'equities',
+          account: '24232234',
+          color: '#F8C677',
+        },
+        {
+          name: 'bonds',
+          account: '2423223',
+          color: '#F8C677',
+        },
+        {
+          name: 'funds',
+          account: '64232234',
+          color: '#F8C677',
+        },
+        {
+          name: 'liquidity',
+          account: '6232234',
+          color: '#F8C677',
+        },
+        {
+          name: 'others',
+          account: '9232234',
+          color: '#F8C677',
+        },
+        {
+          name: 'liabilities',
+          account: '-9232234',
+          color: '#CC715E',
+        },
+      ],
     },
   ]);
 
@@ -133,6 +312,13 @@ const Com = () => {
         height={'400'}
         rang={40}
       ></DoughnutChartHover>
+      <TopHistogram
+        data={topHistogrram}
+        width={'800'}
+        height={'420'}
+        padding={{ top: 15, right: 0, bottom: 50, left: 150 }}
+        part={7}
+      ></TopHistogram>
     </div>
   );
 };
