@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import LineChart from './LineChart';
 import Pie from './Pie';
 import DoughnutChart from './DoughnutChart';
+import DoughnutChartHover from './DoughnutChartHover'
 
 const Com = () => {
   const [doughnutData] = useState([
@@ -126,6 +127,12 @@ const Com = () => {
         height={'400'}
         rang={40}
       ></DoughnutChart>
+      <DoughnutChartHover
+        data={doughnutData}
+        width={'700'}
+        height={'400'}
+        rang={40}
+      ></DoughnutChartHover>
     </div>
   );
 };
