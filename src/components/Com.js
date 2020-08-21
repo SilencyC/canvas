@@ -66,22 +66,22 @@ const Com = () => {
         {
           name: 'equities',
           account: '24232234',
-          color: '#F8C677',
+          color: '#49CB98',
         },
         {
           name: 'bonds',
           account: '2423223',
-          color: '#F8C677',
+          color: '#CC715E',
         },
         {
           name: 'funds',
           account: '64232234',
-          color: '#F8C677',
+          color: '#803EEE',
         },
         {
           name: 'liquidity',
           account: '6232234',
-          color: '#F8C677',
+          color: '#F8784C',
         },
         {
           name: 'others',
@@ -91,7 +91,7 @@ const Com = () => {
         {
           name: 'liabilities',
           account: '-9232234',
-          color: '#CC715E',
+          color: '#7480F4',
         },
       ],
     },
@@ -100,23 +100,23 @@ const Com = () => {
       accounts: [
         {
           name: 'equities',
-          account: '234234',
-          color: '#F8C677',
+          account: '5342340',
+          color: '#49CB98',
         },
         {
           name: 'bonds',
           account: '6756756',
-          color: '#F8C677',
+          color: '#CC715E',
         },
         {
           name: 'funds',
           account: '87978965',
-          color: '#F8C677',
+          color: '#803EEE',
         },
         {
           name: 'liquidity',
-          account: '345465',
-          color: '#F8C677',
+          account: '3454650',
+          color: '#F8784C',
         },
         {
           name: 'others',
@@ -126,7 +126,7 @@ const Com = () => {
         {
           name: 'liabilities',
           account: '-34534534',
-          color: '#CC715E',
+          color: '#7480F4',
         },
       ],
     },
@@ -136,22 +136,22 @@ const Com = () => {
         {
           name: 'equities',
           account: '24232234',
-          color: '#F8C677',
+          color: '#49CB98',
         },
         {
           name: 'bonds',
           account: '2423223',
-          color: '#F8C677',
+          color: '#CC715E',
         },
         {
           name: 'funds',
           account: '64232234',
-          color: '#F8C677',
+          color: '#803EEE',
         },
         {
           name: 'liquidity',
-          account: '6232234',
-          color: '#F8C677',
+          account: '23123123',
+          color: '#F8784C',
         },
         {
           name: 'others',
@@ -161,7 +161,7 @@ const Com = () => {
         {
           name: 'liabilities',
           account: '-9232234',
-          color: '#CC715E',
+          color: '#7480F4',
         },
       ],
     },
@@ -171,22 +171,22 @@ const Com = () => {
         {
           name: 'equities',
           account: '24232234',
-          color: '#F8C677',
+          color: '#49CB98',
         },
         {
           name: 'bonds',
           account: '2423223',
-          color: '#F8C677',
+          color: '#CC715E',
         },
         {
           name: 'funds',
           account: '64232234',
-          color: '#F8C677',
+          color: '#803EEE',
         },
         {
           name: 'liquidity',
           account: '6232234',
-          color: '#F8C677',
+          color: '#F8784C',
         },
         {
           name: 'others',
@@ -196,7 +196,7 @@ const Com = () => {
         {
           name: 'liabilities',
           account: '-9232234',
-          color: '#CC715E',
+          color: '#7480F4',
         },
       ],
     },
@@ -206,22 +206,22 @@ const Com = () => {
         {
           name: 'equities',
           account: '24232234',
-          color: '#F8C677',
+          color: '#49CB98',
         },
         {
           name: 'bonds',
           account: '2423223',
-          color: '#F8C677',
+          color: '#CC715E',
         },
         {
           name: 'funds',
           account: '64232234',
-          color: '#F8C677',
+          color: '#803EEE',
         },
         {
           name: 'liquidity',
           account: '6232234',
-          color: '#F8C677',
+          color: '#F8784C',
         },
         {
           name: 'others',
@@ -231,7 +231,7 @@ const Com = () => {
         {
           name: 'liabilities',
           account: '-9232234',
-          color: '#CC715E',
+          color: '#7480F4',
         },
       ],
     },
