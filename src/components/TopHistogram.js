@@ -9,6 +9,8 @@ const TopHistogram = (props) => {
   const [ctx, setCtx] = useState(null);
   const [canvasWidth, setCanvasWidth] = useState(null);
   const [canvasHeight, setCanvasHeight] = useState(null);
+  const [axisRang, setAxisRang] = useState(0);
+  const [axisMax, setAxisMax] = useState(0);
 
   useEffect(() => {
     const cvs = document.getElementById('top-histogram');
@@ -23,29 +25,34 @@ const TopHistogram = (props) => {
   useEffect(() => {
     try {
       let allAccounts = [];
-      // console.log('data::', data);
+      console.log(data);
       data.forEach((item) => {
         const { accounts } = item;
-        let accountArr = [];
+        let plusTotal = 0;
+        let minusTotal = 0;
         accounts.forEach((el) => {
-          if (isNaN(el.account * 1)) {
-            return;
+          const { account } = el;
+          if (account * 1 > 0) {
+            plusTotal += account * 1;
           } else {
-            accountArr.push(el.account * 1);
+            minusTotal += account * 1;
           }
         });
-        allAccounts = _.concat(allAccounts, accountArr);
+        allAccounts.push(plusTotal);
+        allAccounts.push(minusTotal);
       });
-      if (allAccounts.length < 30) return;
-      // console.log('allAccounts::', allAccounts);
       const maxAccount = _.max(allAccounts);
       const minAccount = _.min(allAccounts);
-      // console.log('maxAccount::', maxAccount);
-      // console.log('minAccount::', minAccount);
+      let range = Math.ceil(
+        (maxAccount - minAccount) / (maxAccount || minAccount ? part - 1 : part)
+      );
+      const plusRange = Math.ceil(maxAccount / range);
+      setAxisMax(range * plusRange);
+      setAxisRang(range);
     } catch (error) {
       throw error;
     }
-  }, [data]);
+  }, [data, part]);
 
   useEffect(() => {
     if (!canvas) return;
@@ -56,8 +63,8 @@ const TopHistogram = (props) => {
     // };
 
     for (let index = 0; index < part + 1; index++) {
-      const y = canvasHeight - padding.bottom - index * range;
-      let text = toLocaleString(-400000000 + index * 200000000);
+      const y = padding.top + index * range;
+      let text = toLocaleString(axisMax - index * axisRang);
       if (text === '0.00') {
         text = '0';
       }
@@ -83,7 +90,16 @@ const TopHistogram = (props) => {
       ctx.fillText(text, startPoint.x - 15, startPoint.y);
       ctx.stroke();
     }
-  }, [canvas, ctx, canvasWidth, canvasHeight, padding, part]);
+  }, [
+    canvas,
+    ctx,
+    canvasWidth,
+    canvasHeight,
+    padding,
+    part,
+    axisRang,
+    axisMax,
+  ]);
 
   return (
     <div>
