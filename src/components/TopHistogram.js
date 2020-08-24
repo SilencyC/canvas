@@ -142,6 +142,15 @@ const TopHistogram = (props) => {
           minusNumber++;
         }
       });
+      ctx.save();
+      ctx.font = '14px PingFang';
+      ctx.fillStyle = '#a4b2c5';
+      ctx.fillText(
+        item.name,
+        left + centerPosition.x + 10 - ctx.measureText(item.name).width / 2,
+        canvasHeight - (padding.bottom - 30)
+      );
+      ctx.restore();
     });
     function getHeight(account, range, rangeHeight, newLastPosition) {
       const { x, y } = newLastPosition;
